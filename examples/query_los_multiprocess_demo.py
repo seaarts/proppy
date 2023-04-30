@@ -15,7 +15,7 @@ import geopandas as gpd
 import numpy as np
 import rasterio as rio
 
-import proppy.segments as prs
+import proppy.raster as prs
 
 
 def loadDataAndRun(maxDist=2000, verbose=False):

@@ -133,6 +133,9 @@ scrappad.inpynb
 make_link_data.ipynb
 make_big_plot.ipynb
 
-# data and notebooks folders
+# Data and notebooks directories
 /data/
 /notebooks/
+
+# OS X Files
+.DS_Store
