@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Select notebook
+scrappad.inpynb
+make_link_data.ipynb
+make_big_plot.ipynb
+
+# data and notebooks folders
+/data/
+/notebooks/
