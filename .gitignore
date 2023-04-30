@@ -134,7 +134,7 @@ make_link_data.ipynb
 make_big_plot.ipynb
 
 # Data and notebooks directories
-/data/
+/geneva_example/
 /notebooks/
 
 # OS X Files
