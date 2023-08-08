@@ -56,6 +56,7 @@ def loadDataAndRun(maxDist=2000, verbose=False):
 
     # Main "loop" with multiprocessing
     myKwargs = {"nRows": 1, "distPerCol": 5, "rasterfile": rasterfile, "fillna": 136}
+
     with Pool() as p:
         out = p.map(partial(prs.queryMeanObstruction, **myKwargs), rectangles)
 

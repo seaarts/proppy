@@ -128,14 +128,17 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Select notebook
+# Select notebooks
 scrappad.inpynb
 make_link_data.ipynb
 make_big_plot.ipynb
 
 # Data and notebooks directories
-/geneva_example/
+/examples/geneva_example/
 /notebooks/
+/deprecated/
+/data/
+/examples/
 
 # OS X Files
 .DS_Store
