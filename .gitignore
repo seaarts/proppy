@@ -134,11 +134,15 @@ make_link_data.ipynb
 make_big_plot.ipynb
 
 # Data and notebooks directories
-/examples/geneva_example/
-/notebooks/
+/examples/geneva/
+/examples/brooklyn/
+/examples/tcat/
 /deprecated/
 /data/
-/examples/
+
 
 # OS X Files
 .DS_Store
+
+# vscode
+/.vscode
