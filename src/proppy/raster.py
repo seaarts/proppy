@@ -15,7 +15,9 @@ It also enables the querying of richer data for line-segments. The module uses
 ``multiprocessing`` to process multiple queries in parallel.
 """
 
+import contextily as cx
 import geopandas as gpd
+import matplotlib.pyplot as plt
 import numpy as np
 import rasterio as rio
 import shapely
@@ -45,7 +47,10 @@ class Rectangle:
         Values of rectangle z-axis slope.
     length : float
         Length on x-axis of aligned rectangle.
-
+    points : geopandas.GeoDataSeries
+        Geoseries of points (or None if rectangle not yet populated).
+    point_vals: array-like
+        Array of values associated with points (or None)
 
     Notes
     -----
@@ -87,6 +92,111 @@ class Rectangle:
         heights = self.const + self.slope * x_values
 
         return vals - heights
+
+    def _check_point_values(self):
+        if self.points is None or self.point_vals is None:
+            raise ValueError("Rectangle must have points and point_values to plot.")
+
+    @property
+    def rotated_poly(self):
+        """Return polygon rotated by angle."""
+        return rotate(self.poly, self.angle, "center", use_radians=True)
+
+    def plot_vals(self, cmap="terrain", axis_off=True, **kwargs):
+        """Plot the rectangle values.
+
+        Built on geopandas.GeoDataFrame.plot().
+        """
+
+        self._check_point_values
+
+        gdf = gpd.GeoDataFrame({"geometry": self.points, "val": self.point_vals})
+
+        fig, ax = plt.subplots()
+
+        gdf.plot(marker="s", ec="None", cmap="terrain", column="val", ax=ax, **kwargs)
+
+        if axis_off:
+            plt.axis("off")
+
+        plt.show()
+
+    def plot_map(self, points_crs, dpi=120, **kwargs):
+        """Plot the queried points on map."""
+
+        self._check_point_values
+
+        pts = gpd.GeoDataFrame(geometry=self.points)
+
+        pts.geometry = pts.geometry.rotate(
+            self.angle, origin=self.poly.centroid, use_radians=True
+        )
+
+        pts = pts.set_crs(points_crs)
+        pts = pts.to_crs("EPSG:3857")  # web mercator
+
+        gdf = gpd.GeoDataFrame({"geometry": pts.geometry, "val": self.point_vals})
+
+        # Make a bounding ball for a square map
+        rect_poly = self.poly
+        rect_poly = gpd.GeoDataFrame(geometry=[rect_poly.centroid])
+        rect_poly = rect_poly.set_crs(points_crs)
+        rect_poly = rect_poly.geometry.buffer((self.length / 2) * 1.05)
+        rect_poly = rect_poly.to_crs("EPSG:3857")
+
+        # Make plot
+        fig, ax = plt.subplots(dpi=dpi)
+        rect_poly.plot(alpha=0, ax=ax)
+        gdf.plot(
+            marker=".",
+            ec="None",
+            cmap="terrain",
+            column="val",
+            ax=ax,
+            **kwargs,
+        )
+        cx.add_basemap(ax=ax, source=cx.providers.CartoDB.Positron)
+        plt.axis("off")
+        plt.show()
+
+
+def make_rectangles(lines, zheads, ztails, relative_buffer=0.1):
+    """Generate list of rectangles from line-segments and a buffer.
+
+    Parameters
+    ----------
+    lines : geopandas.GeoSeries
+      Array of line-segments.
+    zheads : array-like
+      Array of z-coordinates of line-segment heads.
+    ztails : array-like
+      Array of z-coordinates of line-segment tails.
+    relative_buffer : float
+      Distance from centerline of to edge of rectangle as function of line-length.
+
+    Returns
+    -------
+    rectangles : list
+      List of proppy.Rectangle-objects.
+    """
+
+    lengths = lines.geometry.length
+
+    buffers = lengths * relative_buffer
+
+    angles = angle(lines)
+
+    polygons = makeParallelRectangles(lines.values, angles, buffers)
+
+    consts, slopes = getSlope(lines, angles, zheads, ztails)
+
+    # Form Rectangle-objects
+    rectangles = []
+    for i, poly in enumerate(polygons):
+        R = Rectangle(i, poly, angles[i], consts[i], slopes[i], lengths[i])
+        rectangles.append(R)
+
+    return rectangles
 
 
 def makeLineString(A, B):
@@ -351,7 +461,11 @@ def normalizedRasterValues(rectangle, nrows, ncols, rasterfile):
 
     points, vals = rasterValues(rectangle, nrows, ncols, rasterfile)
 
-    return {"id": rectangle.id, "data": rectangle.normalize_raster_values(points, vals)}
+    return {
+        "id": rectangle.id,
+        "points": points,
+        "vals": rectangle.normalize_raster_values(points, vals),
+    }
 
 
 def queryMeanObstruction(rectangle, nRows, distPerCol, rasterfile, fillna=99999):
