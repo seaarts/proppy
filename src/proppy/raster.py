@@ -77,7 +77,7 @@ class Rectangle:
         return f"Rectanlge({self.__dict__})"
 
     def normalize_raster_values(self, points, vals):
-        """Normalize raster values by plane parallel to LoS-line.
+        """Vertical distance between plane parallel to LoS-line and terrain.
 
         Parameters
         ----------
@@ -91,7 +91,7 @@ class Rectangle:
 
         heights = self.const + self.slope * x_values
 
-        return vals - heights
+        return heights - vals
 
     def _check_point_values(self):
         if self.points is None or self.point_vals is None:
@@ -102,7 +102,7 @@ class Rectangle:
         """Return polygon rotated by angle."""
         return rotate(self.poly, self.angle, "center", use_radians=True)
 
-    def plot_vals(self, cmap="terrain", axis_off=True, **kwargs):
+    def plot_vals(self, cmap="terrain_r", axis_off=True, **kwargs):
         """Plot the rectangle values.
 
         Built on geopandas.GeoDataFrame.plot().
@@ -114,14 +114,14 @@ class Rectangle:
 
         fig, ax = plt.subplots()
 
-        gdf.plot(marker="s", ec="None", cmap="terrain", column="val", ax=ax, **kwargs)
+        gdf.plot(marker="s", ec="None", cmap=cmap, column="val", ax=ax, **kwargs)
 
         if axis_off:
             plt.axis("off")
 
         plt.show()
 
-    def plot_map(self, points_crs, dpi=120, **kwargs):
+    def plot_map(self, points_crs, dpi=120, cmap="terrain_r", **kwargs):
         """Plot the queried points on map."""
 
         self._check_point_values
@@ -150,7 +150,7 @@ class Rectangle:
         gdf.plot(
             marker=".",
             ec="None",
-            cmap="terrain",
+            cmap=cmap,
             column="val",
             ax=ax,
             **kwargs,
