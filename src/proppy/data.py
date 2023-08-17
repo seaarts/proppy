@@ -15,7 +15,7 @@ import torch as th
 from torch.utils.data import Dataset
 
 
-class RasterLinkDataSet(Dataset):
+class RasterLinkDataset(Dataset):
     """
     Dataset for raster-enhanced wireless links.
     """
