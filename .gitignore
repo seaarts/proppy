@@ -135,6 +135,7 @@ make_big_plot.ipynb
 
 # Data and notebooks directories
 /examples/geneva/
+examples/antwerp/cache/
 /examples/brooklyn/
 /examples/tcat/
 /deprecated/
