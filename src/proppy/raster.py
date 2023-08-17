@@ -468,6 +468,16 @@ def normalizedRasterValues(rectangle, nrows, ncols, rasterfile):
     }
 
 
+def save_raster_values(rectangle, nrows, ncols, rasterfile, savedir, fmt="%.2e"):
+    """Query distance to LoS place and save file as array."""
+
+    out = normalizedRasterValues(rectangle, nrows, ncols, rasterfile)
+
+    arr = out["vals"].reshape((ncols, nrows)).T
+
+    np.savetxt(f"{savedir}/{out['id']}.csv", arr, delimiter=",", fmt=fmt)
+
+
 def queryMeanObstruction(rectangle, nRows, distPerCol, rasterfile, fillna=99999):
     """
     Compute mean obstruction of Rectangles-object for given raster.
