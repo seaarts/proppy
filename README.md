@@ -71,3 +71,18 @@ make html
 You should see output about the created documents, as well as any warnings or errors. The updated docs should
 then be ready to view. It is recommended to update the docs frequently, as this will inform you of any errors
 that you might have in your docstrings.
+
+
+## To-do items
+There are a few items left to do to improve this package.
+
+- [ ] Improve documentation and models.
+- [ ] Add unit tests.
+- [ ] Write `pytorch` dataset-wrappers for exisitng datasets.
+    - Querying large volumes of links and rasters is costly, so the output should be zipped and shared online.
+    - We need a place to store this data, with a download link.
+    - Next, we can write a function that downloads this data unless it already exists on disk, and link this with the
+    dataset wrapper. This is standard practice for pytorch datasets.
+- [ ] Train some models on the data
+- [ ] Generate some predictions
+- [ ] Document and make a nice notebook for showcasing this process.

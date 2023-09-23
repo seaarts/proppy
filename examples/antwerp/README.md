@@ -19,4 +19,10 @@ This example projects shows how to:
 - [ ] Use data to fit a macine learning model
 - [ ] Visualize the model fit
 
-## 
+
+## Extracting link-level
+The first task in propagation modeling is to extract the relevant *wireless links*. A link represent one uplink-receiver pair. The noteook `make_linkdate.ipynb` shows how this is done systematically for LoRaWAN data from Antwerp.
+
+## Querying raster data for wireless links
+The more we know about a link, the better we can predict its quality. The `proppy.raster`-submodule is designed help query raster images for data on wireless links. The notebook `make_godata.ipynb` shows how this is done for our linkdata in Antwerp. 
+
