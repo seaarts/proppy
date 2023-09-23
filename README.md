@@ -41,7 +41,7 @@ This is a specially formatted string wrapped in three double quotes.
 ```python
 def myAddition(a, b):
     """
-    Add `a` to `b`.
+    Add a to b.
 
     Parameters
     ----------
@@ -53,7 +53,10 @@ def myAddition(a, b):
     Returns
     -------
     c : float
-        The sum of `a + b`.
+        The sum of a + b.
+    
+    """
+    return a + b
 ```
 You can read more about docstrings in the
 [numpydoc style guide](https://numpydoc.readthedocs.io/en/latest/format.html).
