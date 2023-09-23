@@ -1,7 +1,9 @@
 """
-proppy.shapes
+======
+shapes
+======
 
-This module is used to associate variables with line-segments using shapefules.
+The `shapes`-submodule helps equip line-segments with variables from shapefiles.
 """
 
 

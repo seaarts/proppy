@@ -135,11 +135,13 @@ make_big_plot.ipynb
 
 # Data and notebooks directories
 /examples/geneva/
-examples/antwerp/cache/
+/examples/antwerp/cache/
+/examples/antwer/data/
 /examples/brooklyn/
 /examples/tcat/
 /deprecated/
 /data/
+
 
 
 # OS X Files

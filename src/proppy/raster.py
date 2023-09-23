@@ -57,11 +57,10 @@ class Rectangle:
     This data structure is used to query rasters for LoS and other geometries.
     The use of axis-parallel rectangles with angles, constants and slopes is
     motivated by limitations of using raster data of varying resolutions:
-        1. Rasters values can be queried at collections of points.
-        2. Axis-aligned rectangles are easily overlayed with a grid of points.
-        3. The elevation of rectangles floating in 3D is easily encoded with
-        a constant and a slope.
-
+    #. Rasters values can be queried at collections of points.
+    #. Axis-aligned rectangles are easily overlayed with a grid of points.
+    #. The elevation of rectangles floating in 3D is easily encoded with
+    a constant and a slope.
     """
 
     def __init__(self, id, polygon, angle, constant, slope, length):
@@ -75,6 +74,11 @@ class Rectangle:
 
     def __repr__(self):
         return f"Rectanlge({self.__dict__})"
+
+    @property
+    def rotated_poly(self):
+        """Return polygon rotated by angle."""
+        return rotate(self.poly, self.angle, "center", use_radians=True)
 
     def normalize_raster_values(self, points, vals):
         """Vertical distance between plane parallel to LoS-line and terrain.
@@ -96,11 +100,6 @@ class Rectangle:
     def _check_point_values(self):
         if self.points is None or self.point_vals is None:
             raise ValueError("Rectangle must have points and point_values to plot.")
-
-    @property
-    def rotated_poly(self):
-        """Return polygon rotated by angle."""
-        return rotate(self.poly, self.angle, "center", use_radians=True)
 
     def plot_vals(self, cmap="terrain_r", axis_off=True, **kwargs):
         """Plot the rectangle values.
