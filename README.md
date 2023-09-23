@@ -20,11 +20,11 @@ so we can improve this repo.
 ## Examples and use
 Please see the ``/examples/`` folder for examples on how to use the package.
 
-### [Using proppy.raster for LoRaWAN links in Antwerp, Belgium](https://github.com/seaarts/proppy/tree/main/examples/antwerp)
+### Using proppy.raster for LoRaWAN links in Antwerp, Belgium
 The [Antwerp example ](https://github.com/seaarts/proppy/tree/main/examples/antwerp) shows how to convert raw LoRaWAN `json` data
 into usable link-level data, and how the `proppy.raster`-submodule is used to equip each link with geo-data.
 
-### Projecting Line of Sight in Geneva, NY](https://github.com/seaarts/proppy/tree/main/examples/tcat)
+### Projecting Line of Sight in Geneva, NY
 **Under construction**.
 
 
