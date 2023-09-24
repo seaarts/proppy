@@ -3,7 +3,9 @@
 Wireless propagation models for Python.
 
 This package implements radio propagation models in Python, streamlining the use of data to
-model and forecast wireless conneciton quality.
+model and forecast wireless conneciton quality. This package is primarily designed for
+[LoRaWAN](https://en.wikipedia.org/wiki/LoRa), however many of the implemented wireless
+models and tools can be applied to other technologies.
 
 ## Installation
 Clone the `proppy` repo to your machine.
@@ -41,19 +43,19 @@ This is a specially formatted string wrapped in three double quotes.
 ```python
 def myAddition(a, b):
     """
-    Add a to b.
+    A simple explanation of the functions, e.g. add a to b.
 
     Parameters
     ----------
     a : float
-        The first number we wish to add.
+        Explanation of the a-parameters.
     b : float
-        The second number we wish to add.
+        Explanation of the b-parameter.
 
     Returns
     -------
     c : float
-        The sum of a + b.
+        Description of what is returned, e.g, a + b.
     
     """
     return a + b
