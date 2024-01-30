@@ -253,11 +253,20 @@ def _angle(xHead, yHead, xTail, yTail):
 
     The inputs are cartesian coordinates.
     """
-    if np.any(xHead == xTail):
-        # may want to fix this later - should be permitted.
-        raise ValueError("Not implemented: segments with equal X-coords.")
 
-    return np.arctan((yTail - yHead) / (xTail - xHead))
+    radii = np.full_like(xHead, np.nan, dtype=np.float32)
+
+    equalX = np.isclose(xHead, xTail)
+
+    if np.any(equalX):
+        radii[equalX] = np.where(yHead[equalX] > yTail[equalX], -np.pi / 2, np.pi / 2)
+
+    rise = yTail[~equalX] - yHead[~equalX]
+    run = xTail[~equalX] - xHead[~equalX]
+
+    radii[~equalX] = np.arctan(rise / run)
+
+    return radii
 
 
 def angle(lines):
